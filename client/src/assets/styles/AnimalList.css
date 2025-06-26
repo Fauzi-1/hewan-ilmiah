@@ -1,0 +1,46 @@
+.animal-list-container {
+    padding: 2rem;
+    font-family: 'Comic Sans MS', cursive;
+  }
+  
+  .animal-list-container h2 {
+    text-align: center;
+    color: #004d40;
+    margin-bottom: 2rem;
+  }
+  
+  .animal-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .animal-card {
+    background-color: #e0f2f1;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    text-align: center;
+  }
+  
+  .animal-card:hover {
+    transform: scale(1.03);
+  }
+  
+  .animal-card img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  
+  .animal-card h3 {
+    margin: 0.5rem 0;
+    color: #00796b;
+  }
+  
+  .animal-card .desc {
+    font-size: 0.9rem;
+    color: #444;
+  }
+  

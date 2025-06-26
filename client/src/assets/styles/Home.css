@@ -1,0 +1,68 @@
+.home-container {
+    padding: 2rem;
+    font-family: 'Comic Sans MS', cursive;
+  }
+  
+  .hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    background-color: #e0f7fa;
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 3rem;
+  }
+  
+  .hero-text {
+    max-width: 500px;
+  }
+  
+  .hero-text h1 {
+    font-size: 2.5rem;
+    color: #00695c;
+  }
+  
+  .btn-eksplorasi {
+    display: inline-block;
+    margin-top: 1rem;
+    background-color: #00897b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+  }
+  
+  .hero-image img {
+    max-width: 400px;
+  }
+  
+  .fitur-utama h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #00796b;
+  }
+  
+  .fitur-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+  
+  .fitur-card {
+    background-color: #a7ffeb;
+    padding: 1.5rem;
+    text-align: center;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #004d40;
+    font-weight: bold;
+    transition: transform 0.2s ease;
+  }
+  
+  .fitur-card:hover {
+    transform: scale(1.05);
+    background-color: #80deea;
+  }
+  
