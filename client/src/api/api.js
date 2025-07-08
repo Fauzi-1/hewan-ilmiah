@@ -2,7 +2,9 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://192.168.1.3:5000/api',
+  baseURL: "https://ant-meet-highly.ngrok-free.app/api",
+  withCredentials: true,
 });
+
 
 export default instance;
