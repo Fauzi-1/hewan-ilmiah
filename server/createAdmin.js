@@ -7,7 +7,7 @@ async function createAdmin() {
   try {
     await mongoose.connect(process.env.MONGO_URI);
 
-    const hashedPassword = await bcrypt.hash('fauzi123', 10); // ganti dengan password yang kamu mau
+    const hashedPassword = await bcrypt.hash('fauzi123', 10);
 
     const newAdmin = new Admin({
       username: 'fauzi',

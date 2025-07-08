@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: 'http://localhost:5000/api', // Ganti kalau ke server production
+  baseURL: 'http://192.168.1.3:5000/api',
 });
 
 export default instance;

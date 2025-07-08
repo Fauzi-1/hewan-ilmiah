@@ -1,6 +1,6 @@
 const Chatbot = require('../models/Chatbot');
 
-// ✅ Fungsi: Mendapatkan respons chatbot berdasarkan pesan dari user
+// Fungsi: Mendapatkan respons chatbot berdasarkan pesan dari user
 exports.getResponse = async (req, res) => {
   const { message } = req.body;
   try {
@@ -14,7 +14,7 @@ exports.getResponse = async (req, res) => {
         }
       } catch (err) {
         console.warn(`Invalid regex ignored: ${entry.questionPattern}`);
-        continue; // Abaikan jika regex tidak valid
+        continue; // Mengabaikan jika regex tidak valid
       }
     }
 
@@ -24,7 +24,7 @@ exports.getResponse = async (req, res) => {
   }
 };
 
-// ✅ Fungsi: Menambahkan entri chatbot baru
+// Fungsi: Menambahkan entri chatbot baru
 exports.addChatResponse = async (req, res) => {
   try {
     const { questionPattern, response } = req.body;
@@ -45,7 +45,7 @@ exports.addChatResponse = async (req, res) => {
   }
 };
 
-// ✅ Fungsi: Mengambil semua entri chatbot
+// Fungsi: Mengambil semua entri chatbot
 exports.getAllChatbots = async (req, res) => {
   try {
     const chatbots = await Chatbot.find();
@@ -55,7 +55,7 @@ exports.getAllChatbots = async (req, res) => {
   }
 };
 
-// ✅ Fungsi: Memperbarui entri chatbot
+// Fungsi: Memperbarui entri chatbot
 exports.updateChatbot = async (req, res) => {
   try {
     const { questionPattern, response } = req.body;
@@ -78,7 +78,7 @@ exports.updateChatbot = async (req, res) => {
   }
 };
 
-// ✅ Fungsi: Menghapus entri chatbot
+// Fungsi: Menghapus entri chatbot
 exports.deleteChatbot = async (req, res) => {
   try {
     await Chatbot.findByIdAndDelete(req.params.id);

@@ -15,8 +15,10 @@ const Navbar = () => {
   return (
     <nav className="sticky top-0 z-50 bg-gradient-to-r from-[#004d40] to-[#26a69a] shadow-md px-6 py-3">
       <div className="flex items-center justify-between">
+        {/* Logo */}
         <h2 className="text-white text-2xl font-bold font-sans">AnimalEdu</h2>
 
+        {/* Hamburger Button */}
         <button
           className="text-white text-2xl md:hidden"
           onClick={() => setIsOpen(!isOpen)}
@@ -25,18 +27,15 @@ const Navbar = () => {
         </button>
 
         {/* Desktop Menu */}
-        <ul className="hidden md:flex gap-6 list-none m-0">
-          {[
-            ['/', 'Beranda'],
-            ['/animals', 'Hewan'],
-            ['/quiz', 'Kuis'],
-            ['/minigame', 'Game'],
-            ['/chatbot', 'Chatbot'],
-            !isLoggedIn && ['/admin/login', 'Login Admin'],
-            isLoggedIn && ['/admin/dashboard', 'Dashboard'],
-          ]
-            .filter(Boolean)
-            .map(([path, label]) => (
+        <div className="hidden md:flex flex-1 items-center justify-center">
+          <ul className="flex gap-6 list-none m-0">
+            {[
+              ['/', 'Beranda'],
+              ['/animals', 'Hewan'],
+              ['/quiz', 'Kuis'],
+              ['/minigame', 'Game'],
+              ['/chatbot', 'Chatbot'],
+            ].map(([path, label]) => (
               <li
                 key={path}
                 className="transform transition-transform duration-200 hover:scale-110"
@@ -49,7 +48,18 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
-        </ul>
+          </ul>
+        </div>
+
+        {/* Login / Dashboard (Right) */}
+        <div className="hidden md:flex items-center">
+          <Link
+            to={isLoggedIn ? '/admin/dashboard' : '/admin/login'}
+            className="text-white font-medium px-4 py-2 rounded hover:bg-white/20 transition-colors"
+          >
+            {isLoggedIn ? 'Dashboard' : 'Login Admin'}
+          </Link>
+        </div>
       </div>
 
       {/* Mobile Menu */}

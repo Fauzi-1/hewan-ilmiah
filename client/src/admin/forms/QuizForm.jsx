@@ -65,7 +65,7 @@ const QuizForm = ({ selectedQuiz, fetchQuizzes, onReset }) => {
 
   return (
     <div className="bg-white rounded shadow p-6">
-      <h2 className="text-xl font-semibold mb-4">{selectedQuiz ? 'Edit Kuis' : 'Tambah Kuis Baru'}</h2>
+      <h2 className="text-xl font-semibold mb-4">{selectedQuiz ? 'Edit Kuis' : 'Tambah Kuis'}</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label className="block mb-1 font-medium">Pertanyaan:</label>

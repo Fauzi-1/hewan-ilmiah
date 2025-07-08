@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../api/api';
+import bgHero from '../assets/hero_bg.jpg'; // Import background gambar lokal
 
 const Quiz = () => {
   const [questions, setQuestions] = useState([]);
   const [current, setCurrent] = useState(0);
-  const [selected, setSelected] = useState('');
+  const [answers, setAnswers] = useState({});
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
@@ -15,9 +16,10 @@ const Quiz = () => {
   const fetchQuiz = async () => {
     try {
       const res = await axios.get('/quizzes');
-      setQuestions(res.data);
+      const shuffled = [...res.data].sort(() => 0.5 - Math.random());
+      setQuestions(shuffled);
       setCurrent(0);
-      setSelected('');
+      setAnswers({});
       setScore(0);
       setIsFinished(false);
     } catch (error) {
@@ -25,19 +27,34 @@ const Quiz = () => {
     }
   };
 
-  const handleAnswer = () => {
-    if (!selected) return;
+  const handleSelect = (value) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [current]: value,
+    }));
+  };
 
-    if (selected === questions[current].correctAnswer) {
-      setScore(score + 1);
-    }
-
-    if (current + 1 < questions.length) {
+  const handleNext = () => {
+    if (current < questions.length - 1) {
       setCurrent(current + 1);
-      setSelected('');
-    } else {
-      setIsFinished(true);
     }
+  };
+
+  const handlePrev = () => {
+    if (current > 0) {
+      setCurrent(current - 1);
+    }
+  };
+
+  const handleFinish = () => {
+    let newScore = 0;
+    questions.forEach((q, idx) => {
+      if (answers[idx] === q.correctAnswer) {
+        newScore += 1;
+      }
+    });
+    setScore(newScore);
+    setIsFinished(true);
   };
 
   const handleRestart = () => {
@@ -45,13 +62,23 @@ const Quiz = () => {
   };
 
   if (questions.length === 0) {
-    return <p className="text-center mt-10">Memuat kuis...</p>;
+    return (
+      <div
+        className="min-h-screen flex items-center justify-center text-gray-600 text-lg"
+        style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+      >
+        Memuat kuis...
+      </div>
+    );
   }
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gradient-to-b from-green-50 to-white px-4">
-      <div className="w-full max-w-2xl p-6 bg-white rounded-lg shadow border border-gray-300">
-        <h2 className="text-2xl font-bold text-green-700 mb-6 text-center">Kuis Hewan Langka</h2>
+    <div
+      className="flex justify-center items-center min-h-screen px-4"
+      style={{ backgroundImage: `url(${bgHero})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+    >
+      <div className="w-full max-w-2xl p-6 bg-white/50 backdrop-blur-md rounded-xl shadow border border-gray-300">
+        <h2 className="text-2xl font-bold text-green-700 mb-6 text-center">Kuis</h2>
 
         {!isFinished ? (
           <div>
@@ -62,10 +89,10 @@ const Quiz = () => {
                   <label className="flex items-center gap-2 cursor-pointer">
                     <input
                       type="radio"
-                      name="answer"
+                      name={`answer-${current}`}
                       value={opt}
-                      checked={selected === opt}
-                      onChange={() => setSelected(opt)}
+                      checked={answers[current] === opt}
+                      onChange={() => handleSelect(opt)}
                       className="accent-green-600"
                     />
                     <span>{opt}</span>
@@ -73,12 +100,32 @@ const Quiz = () => {
                 </li>
               ))}
             </ul>
-            <button
-              onClick={handleAnswer}
-              className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition"
-            >
-              {current + 1 < questions.length ? 'Selanjutnya' : 'Selesai'}
-            </button>
+
+            <div className="flex justify-between mt-6">
+              <button
+                onClick={handlePrev}
+                disabled={current === 0}
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400 disabled:opacity-50"
+              >
+                Sebelumnya
+              </button>
+
+              {current === questions.length - 1 ? (
+                <button
+                  onClick={handleFinish}
+                  className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition"
+                >
+                  Selesai
+                </button>
+              ) : (
+                <button
+                  onClick={handleNext}
+                  className="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition"
+                >
+                  Selanjutnya
+                </button>
+              )}
+            </div>
           </div>
         ) : (
           <div className="text-center space-y-4">
@@ -88,7 +135,7 @@ const Quiz = () => {
             </p>
             <button
               onClick={handleRestart}
-              className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700 transition"
+              className="mt-4 bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 transition"
             >
               Ulangi Kuis
             </button>

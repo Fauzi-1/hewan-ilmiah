@@ -8,7 +8,6 @@ const AnimalForm = ({ selectedAnimal, fetchAnimals, onReset }) => {
     habitat: '',
     conservationStatus: '',
     image: null,
-    sound: null,
   });
 
   useEffect(() => {
@@ -19,7 +18,6 @@ const AnimalForm = ({ selectedAnimal, fetchAnimals, onReset }) => {
         habitat: selectedAnimal.habitat || '',
         conservationStatus: selectedAnimal.conservationStatus || '',
         image: null,
-        sound: null,
       });
     } else {
       resetForm();
@@ -33,7 +31,6 @@ const AnimalForm = ({ selectedAnimal, fetchAnimals, onReset }) => {
       habitat: '',
       conservationStatus: '',
       image: null,
-      sound: null,
     });
     if (onReset) onReset();
   };
@@ -65,7 +62,6 @@ const AnimalForm = ({ selectedAnimal, fetchAnimals, onReset }) => {
       payload.append('habitat', formData.habitat);
       payload.append('conservationStatus', formData.conservationStatus);
       if (formData.image) payload.append('image', formData.image);
-      if (formData.sound) payload.append('sound', formData.sound);
 
       if (selectedAnimal) {
         await axios.put(`/animals/${selectedAnimal._id}`, payload, config);
@@ -82,6 +78,9 @@ const AnimalForm = ({ selectedAnimal, fetchAnimals, onReset }) => {
 
   return (
     <form onSubmit={handleSubmit} className="bg-white shadow p-6 rounded-lg space-y-4">
+      <h3 className="text-xl font-semibold mb-2">
+        {selectedAnimal? 'Edit' : 'Tambah'} Data Hewan
+      </h3>
       <input
         type="text"
         name="name"
@@ -119,13 +118,6 @@ const AnimalForm = ({ selectedAnimal, fetchAnimals, onReset }) => {
         type="file"
         name="image"
         accept="image/*"
-        onChange={handleFileChange}
-        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
-      />
-      <input
-        type="file"
-        name="sound"
-        accept="audio/*"
         onChange={handleFileChange}
         className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
       />

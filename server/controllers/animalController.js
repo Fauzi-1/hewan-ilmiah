@@ -24,7 +24,6 @@ exports.createAnimal = async (req, res) => {
       habitat,
       conservationStatus,
       image,
-      sound: null // Jika belum pakai Cloudinary untuk suara
     });
 
     await newAnimal.save();

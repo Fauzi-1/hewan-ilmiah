@@ -13,7 +13,7 @@ const protect = (req, res, next) => {
       // Memverifikasi token
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-      // Menyimpan informasi user dari token ke request untuk digunakan di route berikutnya
+      // Menyimpan informasi admin dari token ke request untuk digunakan di route berikutnya
       req.user = decoded;
       next();
     } catch (err) {

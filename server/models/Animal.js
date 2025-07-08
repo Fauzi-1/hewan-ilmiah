@@ -18,9 +18,6 @@ const animalSchema = new mongoose.Schema({
   image: {
     type: String,
   },
-  sound: {
-    type: String,
-  },
 }, {
   timestamps: true,
 });
