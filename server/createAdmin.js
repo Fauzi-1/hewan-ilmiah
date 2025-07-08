@@ -10,7 +10,7 @@ async function createAdmin() {
     const hashedPassword = await bcrypt.hash('fauzi123', 10);
 
     const newAdmin = new Admin({
-      username: 'fauzi',
+      username: 'namabebas',
       password: hashedPassword,
     });
 
