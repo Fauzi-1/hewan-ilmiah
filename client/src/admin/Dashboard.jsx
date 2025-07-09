@@ -160,7 +160,7 @@ const Dashboard = () => {
                   <p className="mt-1 text-green-700 italic">Jawaban: {quiz.correctAnswer}</p>
                   <div className="mt-2 flex gap-2">
                     <button onClick={() => setSelectedQuiz(quiz)} className="bg-yellow-500 text-white px-3 py-1 rounded">Edit</button>
-                    <button onClick={() => confirmAndDelete(`/quiz/${quiz._id}`, fetchQuizzes, 'kuis')} className="bg-red-500 text-white px-3 py-1 rounded">Hapus</button>
+                    <button onClick={() => confirmAndDelete(`/quizzes/${quiz._id}`, fetchQuizzes, 'kuis')} className="bg-red-500 text-white px-3 py-1 rounded">Hapus</button>
                   </div>
                 </li>
               ))}

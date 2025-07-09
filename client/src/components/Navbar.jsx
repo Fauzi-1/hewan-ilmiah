@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token);
-    setIsOpen(false);
-  }, [location]);
 
   return (
     <nav className="sticky top-0 z-50 bg-gradient-to-r from-[#004d40] to-[#26a69a] shadow-md px-6 py-3">
       <div className="flex items-center justify-between">
-        {/* Logo */}
-        <h2 className="text-white text-2xl font-bold font-sans">AnimalEdu</h2>
+        {/* Logo as link to home */}
+        <Link
+          to="/"
+          className="text-white text-2xl font-bold font-sans hover:opacity-80 transition"
+        >
+          AnimalEdu
+        </Link>
 
         {/* Hamburger Button */}
         <button
@@ -50,16 +47,6 @@ const Navbar = () => {
             ))}
           </ul>
         </div>
-
-        {/* Login / Dashboard (Right) */}
-        <div className="hidden md:flex items-center">
-          <Link
-            to={isLoggedIn ? '/admin/dashboard' : '/admin/login'}
-            className="text-white font-medium px-4 py-2 rounded hover:bg-white/20 transition-colors"
-          >
-            {isLoggedIn ? 'Dashboard' : 'Login Admin'}
-          </Link>
-        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -71,20 +58,16 @@ const Navbar = () => {
             ['/quiz', 'Kuis'],
             ['/minigame', 'Game'],
             ['/chatbot', 'Chatbot'],
-            !isLoggedIn && ['/admin/login', 'Login Admin'],
-            isLoggedIn && ['/admin/dashboard', 'Dashboard'],
-          ]
-            .filter(Boolean)
-            .map(([path, label]) => (
-              <li key={path}>
-                <Link
-                  to={path}
-                  className="text-white block font-medium px-3 py-1 rounded hover:bg-white/20 transition"
-                >
-                  {label}
-                </Link>
-              </li>
-            ))}
+          ].map(([path, label]) => (
+            <li key={path}>
+              <Link
+                to={path}
+                className="text-white block font-medium px-3 py-1 rounded hover:bg-white/20 transition"
+              >
+                {label}
+              </Link>
+            </li>
+          ))}
         </ul>
       )}
     </nav>
