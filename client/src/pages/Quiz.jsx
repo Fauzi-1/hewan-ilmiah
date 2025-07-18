@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../api/api';
-import bgHero from '../assets/hero_bg.jpg'; // Import background gambar lokal
+import bgHero from '../assets/hero_bg.jpg';
 
 const Quiz = () => {
   const [questions, setQuestions] = useState([]);

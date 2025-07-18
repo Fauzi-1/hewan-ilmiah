@@ -22,6 +22,4 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Endpoint lainnya seperti edit dan delete juga bisa ditambahkan
-
 module.exports = router;

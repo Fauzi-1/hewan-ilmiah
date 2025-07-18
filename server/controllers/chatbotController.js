@@ -14,7 +14,7 @@ exports.getResponse = async (req, res) => {
         }
       } catch (err) {
         console.warn(`Invalid regex ignored: ${entry.questionPattern}`);
-        continue; // Mengabaikan jika regex tidak valid
+        continue;
       }
     }
 

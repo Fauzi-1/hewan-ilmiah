@@ -74,7 +74,6 @@ const MiniGame = () => {
           </div>
         )}
 
-        {/* Pilihan hewan */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4 justify-center mb-8">
           {animals.map((animal) =>
             !isMatched(animal._id) && (
@@ -99,7 +98,6 @@ const MiniGame = () => {
           )}
         </div>
 
-        {/* Pilihan habitat */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {habitats.map((habitat, idx) => (
             <button
@@ -115,7 +113,6 @@ const MiniGame = () => {
           ))}
         </div>
 
-        {/* Tombol ulangi */}
         <div className="text-center mt-10">
           <button
             onClick={fetchAnimals}

@@ -1,6 +1,5 @@
 const Animal = require('../models/Animal');
 
-// Ambil semua data hewan
 exports.getAllAnimals = async (req, res) => {
   try {
     const animals = await Animal.find();
@@ -10,12 +9,10 @@ exports.getAllAnimals = async (req, res) => {
   }
 };
 
-// Buat data hewan baru dan simpan link gambar Cloudinary
 exports.createAnimal = async (req, res) => {
   try {
     const { name, description, habitat, conservationStatus } = req.body;
 
-    // Ambil URL dari hasil upload Cloudinary (req.file.path)
     const image = req.file ? req.file.path : null;
 
     const newAnimal = new Animal({
@@ -34,7 +31,6 @@ exports.createAnimal = async (req, res) => {
   }
 };
 
-// Update data hewan
 exports.updateAnimal = async (req, res) => {
   try {
     const { name, description, habitat, conservationStatus } = req.body;
@@ -46,7 +42,7 @@ exports.updateAnimal = async (req, res) => {
     };
 
     if (req.file) {
-      updateData.image = req.file.path; // Ganti gambar jika ada file baru
+      updateData.image = req.file.path; 
     }
 
     const updated = await Animal.findByIdAndUpdate(req.params.id, updateData, { new: true });
@@ -57,7 +53,6 @@ exports.updateAnimal = async (req, res) => {
   }
 };
 
-// Hapus data hewan
 exports.deleteAnimal = async (req, res) => {
   try {
     await Animal.findByIdAndDelete(req.params.id);

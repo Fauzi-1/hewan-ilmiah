@@ -50,7 +50,7 @@ const startServer = async () => {
             return callback(new Error("Not allowed by CORS"));
           }
         },
-        credentials: true, // kalau pakai cookie / session
+        credentials: true,
       })
     );
     app.use(express.json());

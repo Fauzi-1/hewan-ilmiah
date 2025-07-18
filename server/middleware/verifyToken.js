@@ -12,8 +12,8 @@ const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; // Simpan data user admin ke req.user untuk digunakan di route
-    next(); // Lanjut ke route
+    req.user = decoded; 
+    next(); 
   } catch (error) {
     return res.status(401).json({ message: 'Token tidak valid atau kadaluarsa.' });
   }

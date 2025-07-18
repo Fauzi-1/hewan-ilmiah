@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from '../api/api';
-import bgAnimal from '../assets/hero_bg.jpg'; // Ganti dengan nama file yang ada di folder assets
+import bgAnimal from '../assets/hero_bg.jpg';
 
 const AnimalList = () => {
   const [animals, setAnimals] = useState([]);

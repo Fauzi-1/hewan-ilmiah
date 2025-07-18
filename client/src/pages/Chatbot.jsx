@@ -13,7 +13,9 @@ const Chatbot = () => {
     if (stored) {
       setMessages(JSON.parse(stored));
     } else {
-      const initial = [{ sender: 'bot', text: 'Halo! Aku chatbot website ini. Kamu bisa tanya sesuatu tentang hewan langka ke aku!' }];
+      const initial = [
+        { sender: 'bot', text: 'Halo! Aku chatbot website ini. Kamu bisa tanya sesuatu tentang hewan langka! Jika kamu kebingungan, kamu bisa mengetik "Help" agar tau apa saja yang bisa ditanyakan ke aku.' }
+      ];
       setMessages(initial);
       localStorage.setItem('chatbotHistory', JSON.stringify(initial));
     }
@@ -26,6 +28,10 @@ const Chatbot = () => {
   const updateMessages = (newMessages) => {
     setMessages(newMessages);
     localStorage.setItem('chatbotHistory', JSON.stringify(newMessages));
+  };
+
+  const isImageUrl = (text) => {
+    return typeof text === 'string' && text.startsWith('https://res.cloudinary.com');
   };
 
   const handleSend = async () => {
@@ -57,7 +63,9 @@ const Chatbot = () => {
   };
 
   const handleClearChat = () => {
-    const initial = [{ sender: 'bot', text: 'Halo! Aku chatbot website ini. Kamu bisa tanya sesuatu tentang hewan langka ke aku!' }];
+    const initial = [
+      { sender: 'bot', text: 'Halo! Aku chatbot website ini. Kamu bisa tanya sesuatu tentang hewan langka ke aku!' }
+    ];
     updateMessages(initial);
   };
 
@@ -69,18 +77,16 @@ const Chatbot = () => {
       <div className="w-full max-w-3xl p-6 bg-white/90 backdrop-blur-sm shadow-lg rounded-lg border border-gray-200 flex flex-col h-[80vh]">
         <h2 className="text-2xl font-bold text-center text-green-700">Chatbot</h2>
 
-        {/* Tombol hapus di kanan atas */}
         <div className="flex justify-end mb-2">
           <button
-          className="text-red-500 hover:text-red-700 text-xl sm:text-2xl"
-          title="Hapus Chat"
-          onClick={handleClearChat}
+            className="text-red-500 hover:text-red-700 text-xl sm:text-2xl"
+            title="Hapus Chat"
+            onClick={handleClearChat}
           >
             🗑️
           </button>
         </div>
 
-        {/* Chat Area */}
         <div className="flex-1 overflow-y-auto bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4 space-y-3">
           {messages.map((msg, idx) => (
             <div
@@ -91,7 +97,15 @@ const Chatbot = () => {
                   : 'mr-auto bg-gray-200 text-left'
               }`}
             >
-              {msg.text}
+              {isImageUrl(msg.text) ? (
+                <img
+                  src={msg.text}
+                  alt="Gambar dari chatbot"
+                  className="max-w-full max-h-60 rounded-lg"
+                />
+              ) : (
+                msg.text
+              )}
             </div>
           ))}
 
@@ -102,7 +116,6 @@ const Chatbot = () => {
           <div ref={chatRef} />
         </div>
 
-        {/* Input */}
         <div className="flex gap-2">
           <input
             type="text"

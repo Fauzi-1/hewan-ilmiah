@@ -35,9 +35,7 @@ const Home = () => {
       className="min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      {/* Overlay & Konten */}
       <div className="w-full max-w-6xl bg-white/70 rounded-2xl p-10 md:p-16 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8">
-        {/* Gambar di kiri */}
         <div className="w-full md:w-1/2">
           {heroImage ? (
             <img
@@ -49,8 +47,6 @@ const Home = () => {
             <div className="w-full h-64 bg-gray-200 animate-pulse rounded-xl" />
           )}
         </div>
-
-        {/* Teks Hero di kanan */}
         <div className="w-full md:w-1/2 text-center md:text-left space-y-6">
           <h1 className="text-4xl md:text-5xl font-extrabold text-green-600 leading-tight">
             Selamat Datang di Dunia Hewan Langka!

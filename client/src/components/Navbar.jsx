@@ -7,7 +7,6 @@ const Navbar = () => {
   return (
     <nav className="sticky top-0 z-50 bg-gradient-to-r from-[#004d40] to-[#26a69a] shadow-md px-6 py-3">
       <div className="flex items-center justify-between">
-        {/* Logo as link to home */}
         <Link
           to="/"
           className="text-white text-2xl font-bold font-sans hover:opacity-80 transition"
