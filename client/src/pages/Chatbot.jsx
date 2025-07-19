@@ -64,7 +64,7 @@ const Chatbot = ({ onOpenModal }) => {
           const animal = detailRes.data;
 
           if (animal && animal.name && onOpenModal) {
-            onOpenModal(animal);
+            onOpenModal(animal.name);
           }
         } catch (err) {
           console.error('Gagal mengambil data hewan:', err);
