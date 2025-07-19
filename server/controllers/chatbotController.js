@@ -1,5 +1,5 @@
 const Chatbot = require('../models/Chatbot');
-
+const Animal = require('../models/Animal');
 // Fungsi: Mendapatkan respons chatbot berdasarkan pesan dari user
 exports.getResponse = async (req, res) => {
   const { message } = req.body;
@@ -12,12 +12,26 @@ exports.getResponse = async (req, res) => {
         if (pattern.test(message)) {
           // Jika respons bertipe gambar hewan
           if (entry.response.startsWith('Image:')) {
-            const animalName = entry.response.split(':')[1]; // Ambil nama hewan
-            return res.json({
-              response: `Berikut gambar ${animalName}`,
-              type: 'Image',
-              animalName: animalName
-            });
+            const animalName = entry.response.split(':')[1].trim(); // Misalnya "Badak Jawa"
+            const animal = await Animal.findOne({ name: animalName });
+
+            if (animal) {
+              return res.json({
+                response: `Berikut gambar ${animal.name}`,
+                type: 'Image',
+                animal: {
+                  name: animal.name,
+                  description: animal.description,
+                  image: animal.image,
+                  habitat: animal.habitat,
+                  conservationStatus: animal.conservationStatus,
+                },
+              });
+            } else {
+              return res.json({
+                response: `Maaf, saya tidak menemukan data untuk hewan bernama "${animalName}".`,
+              });
+            }
           }
 
           // Jika respons biasa (teks saja)
