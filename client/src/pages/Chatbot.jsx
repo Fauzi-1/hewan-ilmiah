@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from '../api/api';
 import backgroundImage from '../assets/hero_bg.jpg';
 
-const Chatbot = ({ onAnimalImageRequested }) => {
+const Chatbot = ({ onOpenModal }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
@@ -57,24 +57,20 @@ const Chatbot = ({ onAnimalImageRequested }) => {
         setTyping(false);
       }, 600);
 
-      // 🔍 Cek jika pertanyaan meminta gambar hewan
-      const match = input.toLowerCase().match(/gambar\s+(.+)/);
-      if (match && match[1]) {
-        const animalName = match[1].trim();
+      // ✅ Tambahan: jika chatbot menyertakan tipe animalImage
+      if (res.data?.type === 'animalImage' && res.data?.animalName) {
         try {
-          const animalRes = await axios.get(`/animals?name=${encodeURIComponent(animalName)}`);
-          const animal = animalRes.data;
+          const detailRes = await axios.get(`/animals?name=${encodeURIComponent(res.data.animalName)}`);
+          const animal = detailRes.data;
 
-          if (animal && animal.name) {
-            // Kirim event ke parent (misalnya App atau AnimalList) untuk membuka modal
-            if (onAnimalImageRequested) {
-              onAnimalImageRequested(animal);
-            }
+          if (animal && animal.name && onOpenModal) {
+            onOpenModal(animal);
           }
         } catch (err) {
-          console.error('Gagal mengambil detail hewan:', err);
+          console.error('Gagal mengambil data hewan:', err);
         }
       }
+
     } catch (error) {
       console.error('Chatbot error:', error);
       const botMessage = { sender: 'bot', text: 'Terjadi kesalahan. Coba lagi nanti.' };
