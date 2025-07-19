@@ -16,6 +16,15 @@ function App() {
     setSelectedAnimal(null);
     setIsModalOpen(false);
   };
+const handleOpenModal = (animalName) => {
+  console.log("Mencari:", animalName); // debug
+  const found = animals.find(a => a.name.trim().toLowerCase() === animalName.trim().toLowerCase());
+  console.log("Hasil temuan:", found); // debug
+  if (found) {
+    setSelectedAnimal(found);
+    setIsModalOpen(true);
+  }
+};
 
   return (
     <>
