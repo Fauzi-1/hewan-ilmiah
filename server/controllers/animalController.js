@@ -2,12 +2,23 @@ const Animal = require('../models/Animal');
 
 exports.getAllAnimals = async (req, res) => {
   try {
-    const animals = await Animal.find();
+    const { name } = req.query;
+
+    let animals;
+    if (name) {
+      animals = await Animal.find({
+        name: { $regex: new RegExp(name, 'i') }  // pencarian case-insensitive
+      });
+    } else {
+      animals = await Animal.find();
+    }
+
     res.json(animals);
   } catch (err) {
     res.status(500).json({ error: 'Gagal mengambil data hewan.' });
   }
 };
+
 
 exports.createAnimal = async (req, res) => {
   try {

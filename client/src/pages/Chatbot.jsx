@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from '../api/api';
 import backgroundImage from '../assets/hero_bg.jpg';
 
-const Chatbot = () => {
+const Chatbot = ({ onAnimalImageRequested }) => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [typing, setTyping] = useState(false);
@@ -14,7 +14,10 @@ const Chatbot = () => {
       setMessages(JSON.parse(stored));
     } else {
       const initial = [
-        { sender: 'bot', text: 'Halo! Aku chatbot website ini. Kamu bisa tanya sesuatu tentang hewan langka! Jika kamu kebingungan, kamu bisa mengetik "Help" agar tau apa saja yang bisa ditanyakan ke aku.' }
+        {
+          sender: 'bot',
+          text: 'Halo! Aku chatbot website ini. Kamu bisa tanya sesuatu tentang hewan langka! Jika kamu bingung, kamu bisa ketik "Help".',
+        },
       ];
       setMessages(initial);
       localStorage.setItem('chatbotHistory', JSON.stringify(initial));
@@ -48,10 +51,30 @@ const Chatbot = () => {
       const reply = res?.data?.response?.trim() || 'Maaf, saya tidak mengerti pertanyaanmu.';
       const botMessage = { sender: 'bot', text: reply };
 
+      const updatedMessages = [...tempMessages, botMessage];
       setTimeout(() => {
-        updateMessages([...tempMessages, botMessage]);
+        updateMessages(updatedMessages);
         setTyping(false);
       }, 600);
+
+      // 🔍 Cek jika pertanyaan meminta gambar hewan
+      const match = input.toLowerCase().match(/gambar\s+(.+)/);
+      if (match && match[1]) {
+        const animalName = match[1].trim();
+        try {
+          const animalRes = await axios.get(`/animals?name=${encodeURIComponent(animalName)}`);
+          const animal = animalRes.data;
+
+          if (animal && animal.name) {
+            // Kirim event ke parent (misalnya App atau AnimalList) untuk membuka modal
+            if (onAnimalImageRequested) {
+              onAnimalImageRequested(animal);
+            }
+          }
+        } catch (err) {
+          console.error('Gagal mengambil detail hewan:', err);
+        }
+      }
     } catch (error) {
       console.error('Chatbot error:', error);
       const botMessage = { sender: 'bot', text: 'Terjadi kesalahan. Coba lagi nanti.' };
@@ -64,7 +87,7 @@ const Chatbot = () => {
 
   const handleClearChat = () => {
     const initial = [
-      { sender: 'bot', text: 'Halo! Aku chatbot website ini. Kamu bisa tanya sesuatu tentang hewan langka ke aku!' }
+      { sender: 'bot', text: 'Halo! Aku chatbot website ini. Kamu bisa tanya sesuatu tentang hewan langka ke aku!' },
     ];
     updateMessages(initial);
   };
@@ -98,11 +121,7 @@ const Chatbot = () => {
               }`}
             >
               {isImageUrl(msg.text) ? (
-                <img
-                  src={msg.text}
-                  alt="Gambar dari chatbot"
-                  className="max-w-full max-h-60 rounded-lg"
-                />
+                <img src={msg.text} alt="Gambar dari chatbot" className="max-w-full max-h-60 rounded-lg" />
               ) : (
                 msg.text
               )}
