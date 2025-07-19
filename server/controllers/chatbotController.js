@@ -11,11 +11,11 @@ exports.getResponse = async (req, res) => {
         const pattern = new RegExp(entry.questionPattern, 'i');
         if (pattern.test(message)) {
           // Jika respons bertipe gambar hewan
-          if (entry.response.startsWith('animalImage:')) {
+          if (entry.response.startsWith('Image:')) {
             const animalName = entry.response.split(':')[1]; // Ambil nama hewan
             return res.json({
               response: `Berikut gambar ${animalName}`,
-              type: 'animalImage',
+              type: 'Image',
               animalName: animalName
             });
           }

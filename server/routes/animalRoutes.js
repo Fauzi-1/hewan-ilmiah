@@ -5,6 +5,7 @@ const protect = require('../middleware/authMiddleware');
 const uploadAnimal = require('../middleware/uploadAnimal'); // Middleware upload ke Cloudinary
 
 router.get('/', animalController.getAllAnimals);
+router.get('/', animalController.getAnimalByName);
 
 // Admin Only - Upload gambar ke Cloudinary
 router.post('/', protect, uploadAnimal.single('image'), animalController.createAnimal);

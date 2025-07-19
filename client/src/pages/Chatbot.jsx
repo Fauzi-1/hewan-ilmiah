@@ -58,7 +58,7 @@ const Chatbot = ({ onOpenModal }) => {
       }, 600);
 
       // ✅ Tambahan: jika chatbot menyertakan tipe animalImage
-      if (res.data?.type === 'animalImage' && res.data?.animalName) {
+      if (res.data?.type === 'Image' && res.data?.animalName) {
         try {
           const detailRes = await axios.get(`/animals?name=${encodeURIComponent(res.data.animalName)}`);
           const animal = detailRes.data;

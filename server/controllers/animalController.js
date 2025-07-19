@@ -20,6 +20,17 @@ exports.getAllAnimals = async (req, res) => {
 };
 
 
+exports.getAnimalByName = async (req, res) => {
+  const name = req.query.name;
+  try {
+    const animal = await Animal.findOne({ name: new RegExp(`^${name}$`, 'i') });
+    if (!animal) return res.status(404).json({ message: 'Hewan tidak ditemukan' });
+    res.json(animal);
+  } catch (error) {
+    res.status(500).json({ message: 'Gagal mengambil data hewan.' });
+  }
+};
+
 exports.createAnimal = async (req, res) => {
   try {
     const { name, description, habitat, conservationStatus } = req.body;
