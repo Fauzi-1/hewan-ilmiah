@@ -10,6 +10,17 @@ exports.getResponse = async (req, res) => {
       try {
         const pattern = new RegExp(entry.questionPattern, 'i');
         if (pattern.test(message)) {
+          // Jika respons bertipe gambar hewan
+          if (entry.response.startsWith('animalImage:')) {
+            const animalName = entry.response.split(':')[1]; // Ambil nama hewan
+            return res.json({
+              response: `Berikut gambar ${animalName}`,
+              type: 'animalImage',
+              animalName: animalName
+            });
+          }
+
+          // Jika respons biasa (teks saja)
           return res.json({ response: entry.response });
         }
       } catch (err) {
@@ -23,6 +34,7 @@ exports.getResponse = async (req, res) => {
     res.status(500).json({ message: 'Gagal memproses permintaan chatbot.' });
   }
 };
+
 
 // Fungsi: Menambahkan entri chatbot baru
 exports.addChatResponse = async (req, res) => {
