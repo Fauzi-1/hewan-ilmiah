@@ -1,51 +1,39 @@
 const Chatbot = require('../models/Chatbot');
 const Animal = require('../models/Animal');
-// Fungsi: Mendapatkan respons chatbot berdasarkan pesan dari user
+
 exports.getResponse = async (req, res) => {
-  const { message } = req.body;
   try {
-    const entries = await Chatbot.find();
+    const { message } = req.body;
+    if (!message) return res.status(400).json({ error: 'Pesan tidak boleh kosong' });
 
-    for (let entry of entries) {
-      try {
-        const pattern = new RegExp(entry.questionPattern, 'i');
-        if (pattern.test(message)) {
-          // Jika respons bertipe gambar hewan
-          if (entry.response.startsWith('Image:')) {
-            const animalName = entry.response.split(':')[1].trim(); // Misalnya "Badak Jawa"
-            const animal = await Animal.findOne({ name: animalName });
-
-            if (animal) {
-              return res.json({
-                response: `Berikut gambar ${animal.name}`,
-                type: 'Image',
-                animal: {
-                  name: animal.name,
-                  description: animal.description,
-                  image: animal.image,
-                  habitat: animal.habitat,
-                  conservationStatus: animal.conservationStatus,
-                },
-              });
-            } else {
-              return res.json({
-                response: `Maaf, saya tidak menemukan data untuk hewan bernama "${animalName}".`,
-              });
-            }
+    const allPatterns = await Chatbot.find({});
+    for (const pattern of allPatterns) {
+      const regex = new RegExp(pattern.questionPattern, 'i');
+      if (regex.test(message)) {
+        // Cek apakah respons-nya berformat "Image:<nama hewan>"
+        if (pattern.response.startsWith('Image:')) {
+          const animalName = pattern.response.split('Image:')[1].trim();
+          const animalData = await Animal.findOne({ name: { $regex: new RegExp(`^${animalName}$`, 'i') } });
+          if (!animalData) {
+            return res.json({ response: `Maaf, data gambar untuk ${animalName} tidak ditemukan.` });
           }
 
-          // Jika respons biasa (teks saja)
-          return res.json({ response: entry.response });
+          return res.json({
+            response: `Ini gambar ${animalName}:`,
+            image: animalData.image,
+            name: animalData.name,
+          });
         }
-      } catch (err) {
-        console.warn(`Invalid regex ignored: ${entry.questionPattern}`);
-        continue;
+
+        // Jika respons biasa (bukan gambar)
+        return res.json({ response: pattern.response });
       }
     }
 
-    res.json({ response: 'Maaf, saya tidak mengerti. Coba pertanyaan lain.' });
+    return res.json({ response: 'Maaf, saya belum mengerti pertanyaan itu' });
   } catch (error) {
-    res.status(500).json({ message: 'Gagal memproses permintaan chatbot.' });
+    console.error('Error chatbot:', error);
+    return res.status(500).json({ error: 'Terjadi kesalahan di server' });
   }
 };
 

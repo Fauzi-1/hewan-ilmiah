@@ -21,16 +21,18 @@ const Layout = ({ children }) => (
   </>
 );
 
-const AppRoutes = ({ onOpenModal }) => {
+const AppRoutes = () => {
   return (
     <Router>
       <Routes>
+        {/* Public User Pages */}
         <Route path="/" element={<Layout><Home /></Layout>} />
-        <Route path="/animals" element={<Layout><AnimalList onOpenModal={onOpenModal} /></Layout>} />
+        <Route path="/animals" element={<Layout><AnimalList /></Layout>} />
         <Route path="/quiz" element={<Layout><Quiz /></Layout>} />
         <Route path="/minigame" element={<Layout><MiniGame /></Layout>} />
-        <Route path="/chatbot" element={<Layout><Chatbot onOpenModal={onOpenModal} /></Layout>} />
+        <Route path="/chatbot" element={<Layout><Chatbot /></Layout>} />
 
+        {/* Admin Pages */}
         <Route path="/admin/login" element={<Layout><AdminLogin /></Layout>} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
       </Routes>
