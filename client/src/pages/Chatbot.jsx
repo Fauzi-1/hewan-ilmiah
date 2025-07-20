@@ -45,6 +45,7 @@ const Chatbot = () => {
         text: reply,
         image: res?.data?.image || null,
         name: res?.data?.name || null,
+        description: res?.data?.description || null,
       };
 
       setTimeout(() => {
