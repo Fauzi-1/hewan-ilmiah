@@ -39,6 +39,7 @@ const Chatbot = () => {
 
     try {
       const res = await axios.post('/chatbot/ask', { message: input });
+      console.log('📦 Respon dari server:', res.data);
       const reply = res?.data?.response?.trim() || 'Maaf, saya tidak mengerti pertanyaanmu.';
       const botMessage = {
         sender: 'bot',
@@ -97,6 +98,7 @@ const Chatbot = () => {
                 {/* Tampilkan gambar jika ada */}
                 {msg.image ? (
                   <div className="space-y-2">
+                    {console.log('🖼️ Gambar ditemukan:', msg.image, msg.name, msg.description)}
                     <p className="font-semibold">{msg.text}</p>
                     <img
                       src={msg.image}

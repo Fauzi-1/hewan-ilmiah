@@ -17,6 +17,7 @@ exports.getResponse = async (req, res) => {
           if (!animalData) {
             return res.json({ response: `Maaf, data gambar untuk ${animalName} tidak ditemukan.` });
           }
+          console.log('🐾 Animal Data ditemukan:', animalData);
 
           return res.json({
             response: `Ini gambar ${animalName}:`,
