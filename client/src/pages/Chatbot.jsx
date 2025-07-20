@@ -38,7 +38,7 @@ const Chatbot = () => {
     setTyping(true);
 
     try {
-      const res = await axios.post('https://ant-meet-highly.ngrok-free.app/api/chatbot/ask', { message: input });
+      const res = await axios.post('https://api.hewan-edu.my.id/chatbot/ask', { message: input });
       console.log('📦 Respon dari server:', res.data);
       const reply = res?.data?.response?.trim() || 'Maaf, saya tidak mengerti pertanyaanmu.';
       const botMessage = {
