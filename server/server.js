@@ -36,6 +36,7 @@ const startServer = async () => {
       "http://localhost:3000",
       "http://localhost:3001",
       "https://hewan-edu.vercel.app",
+      "https://hewan-edu.my.id",
     ];
 
     // middleware CORS dengan konfigurasi
