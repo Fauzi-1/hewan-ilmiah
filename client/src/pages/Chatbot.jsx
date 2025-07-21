@@ -38,7 +38,7 @@ const Chatbot = () => {
     setTyping(true);
 
     try {
-      const res = await api.post('/api/chatbot/ask', { message: input });
+      const res = await axios.post('/chatbot/ask', { message: input });
       console.log('📦 Respon dari server:', res.data);
       const reply = res?.data?.response?.trim() || 'Maaf, saya tidak mengerti pertanyaanmu.';
       const botMessage = {
