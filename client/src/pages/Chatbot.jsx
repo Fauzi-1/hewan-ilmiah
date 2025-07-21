@@ -38,7 +38,7 @@ const Chatbot = () => {
     setTyping(true);
 
     try {
-      const res = await axios.post('https://api.hewan-edu.my.id/chatbot/ask', { message: input });
+      const res = await axios.post('/chatbot/ask', { message: input });
       console.log('📦 Respon dari server:', res.data);
       const reply = res?.data?.response?.trim() || 'Maaf, saya tidak mengerti pertanyaanmu.';
       const botMessage = {
@@ -46,7 +46,6 @@ const Chatbot = () => {
         text: reply,
         image: res?.data?.image || null,
         name: res?.data?.name || null,
-        description: res?.data?.description || null,
       };
 
       setTimeout(() => {
@@ -99,7 +98,7 @@ const Chatbot = () => {
                 {msg.image ? (
                   <div className="space-y-2">
                     {console.log('🖼️ Gambar ditemukan:', msg.image, msg.name, msg.description)}
-                    <p className="font-semibold">{msg.text}</p>
+                    <p className="">{msg.text}</p>
                     <img
                       src={msg.image}
                       alt={msg.name || 'Gambar Hewan'}

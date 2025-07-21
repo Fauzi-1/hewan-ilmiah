@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-  baseURL: "https://ant-meet-highly.ngrok-free.app/api",
+  baseURL: "https://api.hewan-edu.my.id/api/",
   withCredentials: true,
 });
 

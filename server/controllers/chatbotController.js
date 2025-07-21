@@ -23,7 +23,6 @@ exports.getResponse = async (req, res) => {
             response: `Ini gambar ${animalName}:`,
             image: animalData.image,
             name: animalData.name,
-            description: animalData.description,
           });
         }
 
