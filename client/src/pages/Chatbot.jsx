@@ -40,7 +40,7 @@ const Chatbot = () => {
     try {
       const res = await axios.post('/chatbot/ask', { message: input });
       console.log('📦 Respon dari server:', res.data);
-      const reply = res?.data?.response?.trim() || 'Maaf, saya tidak mengerti pertanyaanmu.';
+      const reply = res?.data?.response?.trim() || 'Maaf, saya tidak mengerti pertanyaanmu. Kalau kamu bingung pertanyaan apa saja yang bisa ditanyakan, kamu bisa ketik "Help"';
       const botMessage = {
         sender: 'bot',
         text: reply,
