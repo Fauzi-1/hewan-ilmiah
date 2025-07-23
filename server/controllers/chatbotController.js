@@ -31,7 +31,7 @@ exports.getResponse = async (req, res) => {
       }
     }
 
-    return res.json({ response: 'Maaf, saya belum mengerti pertanyaan itu' });
+    return res.json({ response: 'Maaf, saya belum mengerti pertanyaan itu. Kalau kamu bingung pertanyaan apa saja yang bisa ditanyakan, kamu bisa ketik "Help"' });
   } catch (error) {
     console.error('Error chatbot:', error);
     return res.status(500).json({ error: 'Terjadi kesalahan di server' });
