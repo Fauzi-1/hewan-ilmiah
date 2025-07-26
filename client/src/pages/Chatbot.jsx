@@ -98,7 +98,9 @@ const Chatbot = () => {
                 {msg.image ? (
                   <div className="space-y-2">
                     {console.log('🖼️ Gambar ditemukan:', msg.image, msg.name, msg.description)}
-                    <p className="">{msg.text}</p>
+                    {msg.text.split('\n').map((line, i) => (
+                      <p key={i}>{line}</p>
+                    ))}
                     <img
                       src={msg.image}
                       alt={msg.name || 'Gambar Hewan'}
