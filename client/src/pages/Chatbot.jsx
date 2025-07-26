@@ -117,11 +117,13 @@ const Chatbot = () => {
                   {msg.text.split('\n').map((line, i) => (
                     <p key={i}>{line}</p>
                   ))}
-                  <img
-                    src={msg.image}
-                    alt={msg.name || 'Gambar Hewan'}
-                    className="rounded max-w-xs"
-                  />
+                  <div className="w-full flex justify-center">
+                    <img
+                      src={msg.image}
+                      alt={msg.name || 'Gambar Hewan'}
+                      className="rounded-lg max-w-full h-auto"
+                    />
+                  </div>
                   {msg.description && (
                     <div className="pt-2 leading-relaxed text-justify space-y-2">
                       {msg.description.split('\n').map((line, i) => (
