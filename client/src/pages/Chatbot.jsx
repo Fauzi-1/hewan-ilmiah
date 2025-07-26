@@ -13,7 +13,12 @@ const Chatbot = () => {
     if (stored) {
       setMessages(JSON.parse(stored));
     } else {
-      const initial = [{ sender: 'bot', text: 'Halo! Aku chatbot website ini. Kamu bisa tanya sesuatu tentang hewan langka ke aku!' }];
+      const initial = [
+        {
+          sender: 'bot',
+          text: 'Halo! Aku chatbot website ini. Kamu bisa tanya sesuatu tentang hewan langka ke aku!',
+        },
+      ];
       setMessages(initial);
       localStorage.setItem('chatbotHistory', JSON.stringify(initial));
     }
@@ -39,13 +44,16 @@ const Chatbot = () => {
 
     try {
       const res = await axios.post('/chatbot/ask', { message: input });
-      console.log('📦 Respon dari server:', res.data);
-      const reply = res?.data?.response?.trim() || 'Maaf, saya tidak mengerti pertanyaanmu. Kalau kamu bingung pertanyaan apa saja yang bisa ditanyakan, kamu bisa ketik "Help"';
+      console.log('Respon dari server:', res.data);
+      const reply =
+        res?.data?.response?.trim() ||
+        'Maaf, saya tidak mengerti pertanyaanmu. Kalau kamu bingung pertanyaan apa saja yang bisa ditanyakan, kamu bisa ketik "Help"';
       const botMessage = {
         sender: 'bot',
         text: reply,
         image: res?.data?.image || null,
         name: res?.data?.name || null,
+        description: res?.data?.description || null,
       };
 
       setTimeout(() => {
@@ -54,7 +62,10 @@ const Chatbot = () => {
       }, 600);
     } catch (error) {
       console.error('Chatbot error:', error);
-      const botMessage = { sender: 'bot', text: 'Terjadi kesalahan. Coba lagi nanti.' };
+      const botMessage = {
+        sender: 'bot',
+        text: 'Terjadi kesalahan. Coba lagi nanti.',
+      };
       setTimeout(() => {
         updateMessages([...tempMessages, botMessage]);
         setTyping(false);
@@ -63,7 +74,12 @@ const Chatbot = () => {
   };
 
   const handleClearChat = () => {
-    const initial = [{ sender: 'bot', text: 'Halo! Aku chatbot website ini. Kamu bisa tanya sesuatu tentang hewan langka ke aku!' }];
+    const initial = [
+      {
+        sender: 'bot',
+        text: 'Halo! Aku chatbot website ini. Kamu bisa tanya sesuatu tentang hewan langka ke aku!',
+      },
+    ];
     updateMessages(initial);
   };
 
@@ -77,46 +93,60 @@ const Chatbot = () => {
 
         <div className="flex justify-end mb-2">
           <button
-          className="text-red-500 hover:text-red-700 text-xl sm:text-2xl"
-          title="Hapus Chat"
-          onClick={handleClearChat}
+            className="text-red-500 hover:text-red-700 text-xl sm:text-2xl"
+            title="Hapus Chat"
+            onClick={handleClearChat}
           >
             🗑️
           </button>
         </div>
-            <div className="flex-1 overflow-y-auto bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4 space-y-3">
-              {messages.map((msg, idx) => (
-              <div
-                key={idx}
-                className={`px-4 py-2 rounded-xl text-sm w-fit max-w-[80%] break-words ${
-                  msg.sender === 'user'
-                    ? 'ml-auto bg-green-200 text-right'
-                    : 'mr-auto bg-gray-200 text-left'
-                }`}
-              >
-                {/* Tampilkan gambar jika ada */}
-                {msg.image ? (
-                  <div className="space-y-2">
-                    {console.log('🖼️ Gambar ditemukan:', msg.image, msg.name, msg.description)}
-                    {msg.text.split('\n').map((line, i) => (
-                      <p key={i}>{line}</p>
-                    ))}
-                    <img
-                      src={msg.image}
-                      alt={msg.name || 'Gambar Hewan'}
-                      className="rounded max-w-xs"
-                    />
-                    {msg.description && (
-                      <p className="text-xs text-gray-600">{msg.description}</p>
-                    )}
-                  </div>
-                ) : (
-                  <p>{msg.text}</p>
-                )}
-              </div>
-            ))}
+
+        <div className="flex-1 overflow-y-auto bg-gray-50 p-4 rounded-lg border border-gray-200 mb-4 space-y-3">
+          {messages.map((msg, idx) => (
+            <div
+              key={idx}
+              className={`px-4 py-2 rounded-xl text-sm w-fit max-w-[80%] break-words ${
+                msg.sender === 'user'
+                  ? 'ml-auto bg-green-200 text-right'
+                  : 'mr-auto bg-gray-200 text-left'
+              }`}
+            >
+              {msg.image ? (
+                <div className="space-y-2">
+                  {/* jika ada gambar, tampilkan teks, gambar, dan deskripsi */}
+                  {msg.text.split('\n').map((line, i) => (
+                    <p key={i}>{line}</p>
+                  ))}
+                  <img
+                    src={msg.image}
+                    alt={msg.name || 'Gambar Hewan'}
+                    className="rounded max-w-xs"
+                  />
+                  {msg.description && (
+                    <div className="pt-2 leading-relaxed text-justify space-y-2">
+                      {msg.description.split('\n').map((line, i) => (
+                        <p key={i} className="text-xs text-gray-600">
+                          {line}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                // untuk teks biasa: split per baris
+                <div className="space-y-2">
+                  {msg.text.split('\n').map((line, i) => (
+                    <p key={i}>{line}</p>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+
           {typing && (
-            <div className="text-sm text-gray-500 italic animate-pulse">Bot sedang mengetik...</div>
+            <div className="text-sm text-gray-500 italic animate-pulse">
+              Bot sedang mengetik...
+            </div>
           )}
 
           <div ref={chatRef} />
